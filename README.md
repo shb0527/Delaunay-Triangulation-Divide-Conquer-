@@ -16,6 +16,7 @@
 
 ![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/d02d9ddf-7f2b-4f68-8e5e-1b645eab2a8a)
 
+![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/df08f723-1932-498c-b1dc-8d7bdd933439)
 
 References:
 
