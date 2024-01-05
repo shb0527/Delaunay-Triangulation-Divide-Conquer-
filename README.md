@@ -1,3 +1,7 @@
+![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/99e8880f-a44a-43ad-a535-c13fc8b896ae)
+
+
+
 1. Slicing the set of vertices
 ![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/34e411ae-74d8-47ad-9a6e-1797117d987e)
 
