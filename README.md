@@ -1,3 +1,4 @@
+![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/6d01b484-82aa-468e-b6f5-d86b74f256e8)
 
 ![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/5c898c64-2a60-455a-ac66-550793d44c19)
 
