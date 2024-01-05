@@ -8,7 +8,9 @@
 
 ![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/60dc1bf3-1b31-4bde-93d6-f8c415c06db2)
 
-http://www.geom.uiuc.edu/~samuelp/del_project.html#acknowledgments
 
+References:
+http://www.geom.uiuc.edu/~samuelp/del_project.html#acknowledgments
+https://github.com/bl4ckb0ne/delaunay-triangulation
 
 
