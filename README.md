@@ -10,7 +10,10 @@
 
 
 References:
-http://www.geom.uiuc.edu/~samuelp/del_project.html#acknowledgments
+http://www.geom.uiuc.edu/~samuelp/del_project.html#acknowledgments 
+
+
+
 https://github.com/bl4ckb0ne/delaunay-triangulation
 
 
