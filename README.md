@@ -6,7 +6,8 @@
 2. Creating new LR Edges without intersecting other edges
 
 
-![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/5c898c64-2a60-455a-ac66-550793d44c19)
+![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/df80ac74-9a82-48bc-8aa1-fb41acd914f5)
+
 
 3. Finding finite potentials that do not included in triangles with the LR Edge and each potential candidate
 ![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/c27f1fbe-befc-439c-8eca-d7d773a933c1)
