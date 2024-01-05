@@ -798,36 +798,6 @@ int main() {
     std::cout << edges.size() << std::endl;*/
 
     std::vector<std::pair<std::pair<double, double>, std::pair<double, double> >> medges;
-    
-       //double p1 = dist_w(gen);
-       // double p2 = dist_w(gen);
-       // double p3 = dist_h(gen);
-       // double p4 = dist_h(gen);
-       // double p5 = dist_w(gen);
-       // double p6 = dist_w(gen);
-       // double p7 = dist_h(gen);
-       // double p8 = dist_h(gen);
-
-       // std::pair<double, double> v1 = { p1,p3 };
-       // std::pair<double, double> v2 = { p2,p4 };
-       // std::pair<double, double> v3 = { p5,p7 };
-       // std::pair<double, double> v4 = { p6,p8 };
-
-       // points.push_back(krs::Vector2<double>{ p1, p3});
-       // points.push_back(krs::Vector2<double>{ p2, p4});
-       // points.push_back(krs::Vector2<double>{ p5, p7});
-       // points.push_back(krs::Vector2<double>{ p6, p8});
-
-       // medges.push_back({ v1, v3 });
-       // medges.push_back({ v2, v4 });
-
-       // std::cout << "contains working? " << krs::containsonePoint(medges.back(), v2, v1) << std::endl;
-       // std::cout << "intersect working: " << delaunay.intersect(v1,v2,v3,v4) << std::endl;
-
-
-    
-
-
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
     window.setFramerateLimit(1);
 
