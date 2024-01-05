@@ -11,10 +11,9 @@
 
 
 3. Finding finite potentials that do not included in triangles with the LR Edge and each potential candidate
-![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/c27f1fbe-befc-439c-8eca-d7d773a933c1)
 
+![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/a208d8c8-2366-43d6-987d-12712bbbf7c3)
 
-![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/3b69ccab-814b-4775-8cb3-e3ce22c5251d)
 ![image](https://github.com/shb0527/Delaunay-Triangulation-Divide-Conquer-/assets/111919818/e3936546-63d1-4e2e-a4b5-2cd40d6ad15a)
 
 
