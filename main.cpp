@@ -106,9 +106,14 @@ namespace krs {
     template<typename T>
     bool containstwoPoints(std::pair<std::pair<T, T>, std::pair<T, T> > s, std::pair<T, T> p1, std::pair<T, T> p2)
         {
-
             return (almost_equal2(s.first, p1) || almost_equal2(s.second, p2)) && ((almost_equal2(s.first, p2) || almost_equal2(s.second, p1)));
         }
+    template<typename T>
+    bool containstwoPoints2(std::pair<std::pair<T, T>, std::pair<T, T> > s, std::pair<T, T> p1, std::pair<T, T> p2)
+    {
+        return (almost_equal2(s.first, p1)&& almost_equal2(s.second, p2)) || ((almost_equal2(s.first, p2) && almost_equal2(s.second, p1)));
+    }
+
     template<typename T>
     struct Triangle {
         using Type = T;
@@ -183,8 +188,9 @@ namespace krs {
 
         //std::vector<Edge<double>> _edges;
         std::vector<Vector2<T>> _vertices;
-        std::vector <Triangle<T>> _triangles;
         std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> _edges;
+        std::vector<std::vector<std::pair<T, T>>> _triangles;
+        std::vector<std::vector<std::pair<T, T>>> res;
 
     public:
 
@@ -195,16 +201,18 @@ namespace krs {
 
         const std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> potentials(std::vector<VertexType>& vertices1, std::vector<VertexType>& vertices2
         ,  std::pair<T, T> new_pair1, std::pair<T, T> new_pair2, bool isStart, int depth);
-        void partition(std::vector<VertexType>& vertices, size_t begin, size_t end);
+
         const std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> getEdges();
         const std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> createEdges(std::vector<VertexType>& vertices);
         const std::vector<std::pair<std::pair<T, T>, std::pair<T, T>>> slicingVector(std::vector<VertexType>& vertices, size_t b, size_t e);
-       
+        bool isTriangle(std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> edges, std::pair<T, T> p1, std::pair<T, T> p2, std::pair<T, T> p3);
         bool onsegment(std::pair<T, T> p1, std::pair<T, T> p2, std::pair<T, T> p3) const;
         const int orientation(std::pair<T, T> p1, std::pair<T, T> p2, std::pair<T, T> p3) const;
         bool intersect(std::pair<T, T> p1, std::pair<T, T> p2, std::pair<T, T> q1, std::pair<T, T> q2) const;
         bool delaunay_intersect(std::pair<T, T> np1, std::pair<T, T> np2) const;
-        delaunay& operator=(const delaunay&) = default;
+        void solve(size_t n, size_t k, std::vector<std::pair<T, T>> temp, size_t start, std::vector<Vector2<T>>& vertices);
+        const std::vector<std::vector<std::pair<T, T>>> combine(int n, int k, std::vector<Vector2<T>>& vertices);
+        const std::vector<std::vector<std::pair<T, T>>> getTriangles();
         delaunay& operator=(delaunay&&) = default;
 
     };
@@ -257,7 +265,7 @@ namespace krs {
             potentials(vlist2[i], vlist2[i + 1], np1, np2, true, 0);
         }
 
-         std::vector<std::vector<Vector2<T>>> vlist3;
+        std::vector<std::vector<Vector2<T>>> vlist3;
          for (auto i = 0; i < vertices.size(); i += 6) {
              auto start = vertices.begin() + i;
              auto end = vertices.begin() + i + 6;
@@ -266,22 +274,24 @@ namespace krs {
              vlist3.push_back(v);
          }
         
-         potentials(vlist3[0], vlist3[1], np1, np2, true, 0);
-         potentials(vlist3[1], vlist3[2], np1, np2, true, 0);
-         potentials(vlist3[2], vlist3[3], np1, np2, true, 0);
+         for (auto i = 0; i < vlist3.size() - 1; i++)
+         {
+             potentials(vlist3[i], vlist3[i + 1], np1, np2, true, 0);
+         }
 
-         std::vector<std::vector<Vector2<T>>> vlist4;
-         for (auto i = 0; i < vertices.size(); i += 8) {
+  /*       std::vector<std::vector<Vector2<T>>> vlist4;
+         for (auto i = 0; i < vertices.size(); i += 9) {
              auto start = vertices.begin() + i;
-             auto end = vertices.begin() + i + 8;
+             auto end = vertices.begin() + i + 9;
 
              std::vector<Vector2<T>> v(start, end);
              vlist4.push_back(v);
          }
          
-         potentials(vlist4[0], vlist4[1], np1, np2, true, 0);
-         potentials(vlist4[1], vlist4[2], np1, np2, true, 0);
-
+         for (auto i = 0; i < vlist4.size() - 1; i++)
+         {
+             potentials(vlist4[i], vlist4[i + 1], np1, np2, true, 0);
+         }*/
          std::vector<std::vector<Vector2<T>>> vlist5;
          for (auto i = 0; i < vertices.size(); i += 12) {
              auto start = vertices.begin() + i;
@@ -291,8 +301,10 @@ namespace krs {
              vlist5.push_back(v);
          }
    
-         potentials(vlist5[0], vlist5[1], np1, np2, true, 0);
-           
+         for (auto i = 0; i < vlist5.size() - 1; i++)
+         {
+             potentials(vlist5[i], vlist5[i + 1], np1, np2, true, 0);
+         }
          return _edges;
      
     }
@@ -385,6 +397,72 @@ namespace krs {
            }
  
         }return true;
+    }
+
+
+    template <typename T>
+    bool
+        delaunay<T>::isTriangle(std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> edges, std::pair<T, T> p1, std::pair<T, T> p2, std::pair<T, T> p3) {
+
+        int c = 0;
+        for (auto& e : edges) {
+            if (containstwoPoints2(e, p1, p2)) {
+                c++;
+            }
+        }
+        for (auto& e : edges) {
+            if (containstwoPoints2(e, p2, p3)) {
+                c++;
+            }
+        }
+        for (auto& e : edges) {
+            if (containstwoPoints2(e, p1, p3)) {
+                c++;
+            }
+        }
+
+        if (c == 3) {
+            _triangles.push_back({ p1, p2, p3 });
+            return true;
+            
+        }
+        return false;
+    }
+
+    template <typename T>
+    const std::vector<std::vector<std::pair<T,T>>>
+        delaunay<T>::getTriangles() {
+       
+            return _triangles;
+        
+    }
+
+    template <typename T>
+    void delaunay<T>::solve(size_t n, size_t k, std::vector<std::pair<T,T>> temp, size_t start, std::vector<Vector2<T>> &vertices) {
+
+        if (temp.size() == k) {
+            res.push_back(temp);
+            return;
+        }
+
+        for (int i = start; i != n; i++) {
+            std::pair<T, T> p = { vertices[i].x, vertices[i].y };
+            temp.push_back(p);
+            solve(n, k, temp, i + 1, vertices);
+            temp.pop_back();
+
+        }
+    }
+    template<typename T>
+    const std::vector<std::vector<std::pair<T, T>>> 
+        delaunay<T>::combine(int n, int k, std::vector<Vector2<T>>& vertices) {
+
+        res.clear();
+        std::vector<std::pair<T, T>> temp;
+        solve(n, k, temp, 1, vertices);
+        return res;
+
+
     }
 
 
@@ -791,13 +869,51 @@ int main() {
     //std::vector<std::pair<std::pair<double, double>, std::pair<double, double> >> edges = delaunay.getEdges();
     std::cout << std::endl;
 
-
+    std::vector<std::vector<std::pair<double, double>>> triangles;
+    std::vector<std::vector<std::pair<double, double>>> comb = delaunay.combine(24, 3, points);
+   
+    for (int i = 0; i < comb.size(); i++) {
+        std::vector<std::pair<double, double>> plist;
+        for (int j = 0; j < comb[i].size(); j++) {
+            std::pair<double, double> p = { comb[i][j].first, comb[i][j].second };
+            plist.push_back(p);
+        } 
+       /* std::cout << plist[0].first << " " << plist[0].second << ", ";
+        std::cout << plist[1].first << " " << plist[1].second << ", ";
+        std::cout << plist[2].first << " " << plist[2].second << " ";*/
+        int c = 0;
+        for (auto& e : edges) {
+            if (krs::containstwoPoints2(e, plist[0], plist[1])) {
+                c++;
+            }
+        }
+        for (auto& e : edges) {
+            if (krs::containstwoPoints2(e, plist[1], plist[2])) {
+                c++;
+            }
+        }
+        for (auto& e : edges) {
+            if (krs::containstwoPoints2(e, plist[2], plist[0])) {
+                c++;
+            }
+        }
+        if (c == 3) {
+            triangles.push_back({ plist[0],plist[1], plist[2] });
+        }
+        
+    }
+    std::cout << triangles.size() << std::endl;
   /*  for (auto& e : edges) {
         std::cout << "(" << e.first.first << ", " << e.first.second << ")" << " (" << e.second.first << ", " << e.second.second << ")" << std::endl;
     }
     std::cout << edges.size() << std::endl;*/
 
     std::vector<std::pair<std::pair<double, double>, std::pair<double, double> >> medges;
+    
+
+    
+
+
     sf::RenderWindow window(sf::VideoMode(800, 600), "Delaunay triangulation");
     window.setFramerateLimit(1);
 
@@ -810,14 +926,29 @@ int main() {
 
     
 
-   for (const auto& e : edges) {
+   /*for (const auto& e : edges) {
         sf::Vertex vertices[2] =
         {
-            sf::Vertex(sf::Vector2f(e.first.first, e.first.second)),
-            sf::Vertex(sf::Vector2f(e.second.first, e.second.second))
+            sf::Vertex(sf::Vector2f(e.first.first, e.first.second), sf::Color::Green),
+            sf::Vertex(sf::Vector2f(e.second.first, e.second.second), sf::Color::Green)
         };
         window.draw(vertices, 2, sf::Lines);
-    }
+    }*/
+
+   for (const auto& v : triangles) {
+       int r = rand() % 255;
+       int g = rand() % 255;
+       int b = rand() % 255;
+       sf::Vertex vertices[3] =
+       {
+          
+           sf::Vertex(sf::Vector2f(v[0].first, v[0].second), sf::Color(r,g,b)),
+           sf::Vertex(sf::Vector2f(v[1].first, v[1].second), sf::Color(r,g,b)),
+           sf::Vertex(sf::Vector2f(v[2].first, v[2].second), sf::Color(r,g,b)),
+       };
+       window.draw(vertices, 3, sf::Triangles);
+   }
+
    
     window.display();
 
