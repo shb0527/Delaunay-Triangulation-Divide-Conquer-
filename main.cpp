@@ -401,43 +401,6 @@ namespace krs {
 
 
     template <typename T>
-    bool
-        delaunay<T>::isTriangle(std::vector<std::pair<std::pair<T, T>, std::pair<T, T> >> edges, std::pair<T, T> p1, std::pair<T, T> p2, std::pair<T, T> p3) {
-
-        int c = 0;
-        for (auto& e : edges) {
-            if (containstwoPoints2(e, p1, p2)) {
-                c++;
-            }
-        }
-        for (auto& e : edges) {
-            if (containstwoPoints2(e, p2, p3)) {
-                c++;
-            }
-        }
-        for (auto& e : edges) {
-            if (containstwoPoints2(e, p1, p3)) {
-                c++;
-            }
-        }
-
-        if (c == 3) {
-            _triangles.push_back({ p1, p2, p3 });
-            return true;
-            
-        }
-        return false;
-    }
-
-    template <typename T>
-    const std::vector<std::vector<std::pair<T,T>>>
-        delaunay<T>::getTriangles() {
-       
-            return _triangles;
-        
-    }
-
-    template <typename T>
     void delaunay<T>::solve(size_t n, size_t k, std::vector<std::pair<T,T>> temp, size_t start, std::vector<Vector2<T>> &vertices) {
 
         if (temp.size() == k) {
